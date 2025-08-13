@@ -1,0 +1,11 @@
+{
+    "name": "100일 모험: 서희를 향한 여정",
+    "short_name": "100일 모험",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ff6fa3",
+    "icons": [
+      { "src": "assets/photo.jpg", "sizes": "512x512", "type": "image/jpeg" }
+    ]
+  }
