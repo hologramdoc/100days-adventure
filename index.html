@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+<meta name="theme-color" content="#ff6fa3"/>
+<title>100일 모험: 서희를 향한 여정</title>
+<style>
+:root{ --bg:#ffffff; --text:#342133; --pink:#ff6fa3; --pink2:#ffd6e7; --pink3:#fff3f8; --accent:#ff8db6; --accent2:#ff6fa3; --card:#ffffff; --border:#ffd6e7; --muted:#775a73; }*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif, system-ui, -apple-system, "Noto Sans KR", "Apple SD Gothic Neo", Roboto, Arial, sans-serif} .container{max-width:900px;margin:0 auto;padding:16px} .card{background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 30px rgba(255,111,163,.07);padding:16px} .h1{font-size:clamp(20px, 5vw, 26px);margin:0 0 8px} .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center} .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--pink),var(--accent));color:#fff;box-shadow:0 8px 24px rgba(255,111,163,.35);min-height:44px;touch-action:manipulation} .btn:active{transform:translateY(1px)} .soft{border:1px solid var(--border);background:var(--pink3);padding:10px 12px;border-radius:10px;min-height:44px;touch-action:manipulation} .tag{display:inline-flex;align-items:center;gap:8px;background:var(--pink3);border:1px dashed var(--border);border-radius:999px;padding:8px 10px} .muted{color:var(--muted)} .section{margin-top:14px} .progress{height:10px;background:var(--pink3);border:1px solid var(--border);border-radius:999px;overflow:hidden} .progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--pink2))} .hidden{display:none} /* stages */ .stage{display:none} .stage.active{display:block;animation:fade .3s ease} @keyframes fade{from{opacity:.0;transform:translateY(6px)}to{opacity:1;transform:none}} /* CH1 퀴즈 */ .quiz-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap} .q-list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px} .q-item{padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--pink3)} .q-item b{color:var(--pink)} .opt{display:flex;gap:8px;align-items:center;margin-top:8px;padding:8px;border-radius:10px;border:1px solid var(--border);background:#fff;min-height:44px;touch-action:manipulation} .opt input{accent-color:var(--pink);min-width:20px;min-height:20px} .quiz-actions{display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap} .badge-pass{display:none;padding:8px 10px;border-radius:999px;background:linear-gradient(90deg,var(--pink),var(--pink2));color:#3e1730;font-weight:900} .badge-pass.on{display:inline-block} /* CH2 숨은 하트 */ #findwrap{position:relative; width:min(94vw, 620px); aspect-ratio:1/0.65; border-radius:14px; overflow:hidden; border:1px solid var(--border); background:#f9f0f4; margin:0 auto} #findwrap img{width:100%;height:100%;object-fit:cover;display:block} .heart{position:absolute;width:min(30px, 6vw);height:min(30px, 6vw);border-radius:50%;background:var(--pink);box-shadow:0 6px 16px rgba(255,111,163,.35);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;cursor:pointer;user-select:none;touch-action:manipulation} /* CH3 미로 */ #maze{touch-action:none; width:min(94vw, 360px); height:min(94vw,360px); background:var(--pink3); border:1px solid var(--border); border-radius:14px; position:relative; overflow:hidden; margin:0 auto} .cell{position:absolute;border:1px solid #f0c5d6; background:#fff} .player,.goal{position:absolute;border-radius:8px} .player{background:var(--pink); box-shadow:0 4px 12px rgba(255,111,163,.35)} .goal{background:#a8e7ff} /* CH4 퍼즐 */ #board{position:relative;width:min(94vw,360px);height:min(94vw,360px);margin:auto;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#fff} .piece{position:absolute;cursor:grab;user-select:none;border:1px solid #f0c5d6;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);touch-action:manipulation} .preview{width:min(150px, 30vw);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff} /* 선물 섹션 */ .gift-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px} .gift-card{border:1px solid var(--border);background:var(--card);border-radius:14px;overflow:hidden} .gift-thumb{background:var(--pink3);border-bottom:1px solid var(--border);padding:10px} .gift-thumb img{width:100%;display:block;border-radius:10px} .gift-info{padding:12px} .gift-title{font-weight:900;color:var(--pink)} .fallback{width:100%;aspect-ratio:4/2.4;border:1px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fff} /* Confetti Canvas */ #confetti{position:fixed;inset:0;pointer-events:none} /* 모바일 최적화 */ @media (max-width: 768px) { .container{padding:12px} .card{padding:12px} .h1{font-size:22px} .btn,.soft{padding:10px 14px;font-size:14px} .quiz-head{flex-direction:column;align-items:flex-start;gap:8px} .quiz-actions{flex-direction:column;align-items:stretch} .quiz-actions .btn{width:100%} .row{flex-direction:column;align-items:stretch} .row .btn,.row .soft{width:100%} .preview{width:100%;max-width:200px} } </style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="container">
+  <div class="card">
+    <div class="row"><span class="tag">💗 100일 모험 · for 서희</span></div>
+    <h1 class="h1">게임을 클리어하면… <span style="color:var(--pink)">엔딩(편지+BGM)</span>이 열립니다!</h1>
+    <div class="progress"><span id="pg" style="width:0%"></span></div>
+  </div>
+
+  <!-- CH1 퀴즈 -->
+  <div id="ch1" class="card stage active">
+    <div class="quiz-head">
+      <div>
+        <h2>CH1 · 기억 퀴즈</h2>
+        <p class="muted">정답을 모두 맞히면 다음 단계로 넘어가요. 9개 이상이면 축하 컨페티! 🎉</p>
+      </div>
+      <span id="quizPassed" class="badge-pass">✅ 퀴즈 통과!</span>
+    </div>
+    <div class="row" style="justify-content:space-between;align-items:center;margin-top:6px">
+      <div class="tiny muted">보기 중 하나를 선택하세요.</div>
+      <div class="tiny muted" id="quizProg">0 / 12 응답</div>
+    </div>
+    <div id="quizList" class="q-list" aria-label="우리만의 기억 퀴즈 문항 목록"></div>
+    <div class="quiz-actions">
+      <button class="btn" id="submitQuiz">채점하기</button>
+      <div id="quizResult" class="tiny muted"></div>
+    </div>
+  </div>
+
+  <!-- CH2 숨은 하트 -->
+  <div id="ch2" class="card stage">
+    <h2>CH2 · 숨은 하트 찾기</h2>
+    <p class="muted">사진 속 하트를 모두 찾아 탭하세요.</p>
+    <div class="row section">
+      <input id="bgUrl" class="soft" placeholder="assets/photo2.jpg (기본)"/>
+      <button class="btn" id="applyBg">배경 적용</button>
+    </div>
+    <div id="findwrap" class="section">
+  <img id="bg" src="assets/photo2.jpg" alt="배경"/>
+  <!-- 하트들은 JS로 삽입 -->
+</div>
+    <div class="section muted"><span id="heartStatus">0 / 5</span></div>
+  </div>
+
+  <!-- CH3 미로 -->
+  <div id="ch3" class="card stage">
+    <h2>CH3 · 길을 찾아서</h2>
+    <p class="muted">하트를 드래그/스와이프해서 골(하늘색)까지 이동하세요.</p>
+    <div id="maze" class="section" aria-label="미로"></div>
+  </div>
+
+  <!-- CH4 퍼즐 -->
+  <div id="ch4" class="card stage">
+    <h2>CH4 · 러브 퍼즐</h2>
+    <p class="muted">3×3 사진 퍼즐을 맞추면 엔딩이 열립니다.</p>
+    <div class="row section" style="align-items:flex-end;justify-content:space-between">
+      <div class="preview"><img id="pv" src="assets/photo.jpg" style="width:100%;display:block"/></div>
+      <div class="row">
+        <button class="soft" id="shuffle">섞기</button>
+        <button class="soft" id="snap">자동정렬</button>
+      </div>
+    </div>
+    <div id="board" class="section"></div>
+    <div class="section muted" id="pstat">0% 완료</div>
+  </div>
+
+  <!-- 엔딩 -->
+  <div id="end" class="card stage">
+    <h2>엔딩 · 비밀 편지</h2>
+    <div class="section">
+      <div id="letter" class="soft" contenteditable="true" style="min-height:220px;line-height:1.7;white-space:pre-wrap">
+사랑하는 서희에게,
+
+우리 100일이야. 뭔가 거창한 말을 쓰기보다, 지난 시간 동안 네가 내 하루를 어떻게 바꿔놓았는지 솔직하게 적어볼게.
+
+처음 연남동에서 시간 맞추느라 서로 허둥대던 날을 아직도 기억해. 웨이팅 번호 확인하고, 어디가 좋을지 이것저것 알아보던 그 분주함까지. 그때 난 긴장했고, 네가 “괜찮아요~”라고 말해 줬던 그 여유가 마음을 많이 편하게 해줬어. 처음부터 우리 톤은 막 불꽃튀는 게 아니라, 편안함과 배려였던 것 같아.
+
+네가 베트남에 있던 며칠, 사진 보내 주고 날씨 알려주고, 밤바다 앞에 앉아 있다며 전화를 걸던 순간들이 참 선명해. 팔에 멍이 크게 들었다고 사진을 보내던 너한테 “괜찮아?” 묻던 내 말투에 나도 모르게 걱정이 묻어 있었지. 화면 너머로 웃는 목소리를 듣자 마음이 놓였어. 멀리 있어도, 우리는 서로의 하루에 꼭 들어가 있었구나 싶었어.
+
+우린 사소한 걸 자주 나눠. 점심시간에 헬스장 다녀왔다, 오늘은 러닝 페이스가 어땠다, 저녁엔 뭘 먹었다 같은 이야기들. 거창하지 않은 이 기록들이 쌓여서, 나는 네 하루의 온도를 대충이라도 짐작하고, 너도 내 하루의 질감을 알아가. 이게 참 든든해.
+
+음악 얘기도 좋았지. 차에서 듣는 노래 취향, 그날 감정 따라 고르는 OST, “스타 이즈 본” 좋아한다고 했을 때 괜히 반가웠어. 다음엔 내가 좋아하는 재즈를 살짝 틀고, 자유로를 천천히 달리자. 창문 조금 열고, 말이 없어도 좋은 그 공기를 같이 들이마시자.
+
+그리고 내가 한 말들 꼭 지킬게.
+늦어지면 늦는다고 먼저 말할게. 일정이 바뀌면 바로 공유할게. “말 안 해도 알겠지”라는 생각 대신, “말해서 안심시켜 주자”를 선택할게. 혹시 의견이 달라서 부딪히면, 이기려 들기보다 네가 무얼 느꼈는지부터 차분히 들을게. 숨 한 번 고르고, 내 의도를 먼저 설명하고, 너의 마음을 확인하자. 우리한텐 그게 더 어울린다고 믿어.
+
+하고 싶은 것도 많아.
+자동차극장도 또 가자. 비가 와도 괜찮아. 차 안에서 담요 덮고, 팝콘은 살짝 설레게 과하게 시키고, 영화 끝나면 아무 말 없이 음악 한 곡만 듣자. 뭐 꼭 사지 않아도, 신기한 거 보면서 “이런 건 어때?” 하고 웃자. 너가 “요리 잘해요?”라고 물었을 때 농담처럼 넘겼지만, 부엌만 있으면 뭐든 만들어 줄 자신 있어. 다음에는 진짜 내가 저녁 준비할게. 네가 좋아할만한 메뉴로, 기왕이면 사진도 예쁘게 나오게.
+
+눈에 띄는 이벤트가 없어도 좋아. 동네 산책, 카페에서 나란히 앉아 각자 할 일 하다가 중간중간 고개 들고 눈 마주치는 순간, 그런 게 내겐 제일 큰 이벤트더라.
+
+고마웠던 순간들을 적다 보니 끝이 없네. 나를 믿고 따라와 준 거, 바쁜 와중에도 내 안부 먼저 챙겨 준 거, 가끔은 귀엽게 투정도 부려 준 거, 하나도 허투루 듣지 않았어. 그래서 나도 더 잘하고 싶어. “괜찮아”와 “고마워”를 아끼지 않고, “사랑해”라는 단어에 주저하지 않는 사람으로, 네 옆에 있고 싶어.
+
+다음 100일에도 우리, 똑같이만 가지 말고 조금씩 더 나아가 보자.
+하루에 한 번은 먼저 연락하기, 늦더라도 솔직히 말하기, 주말엔 한 번은 햇볕 아래에서 산책하기, 사진 한 장은 꼭 남기기, 그리고 서로에게 “오늘 너 덕분에 좋았어” 한 마디 건네기. 이런 작지만 확실한 것들을 지켜가면, 1년쯤 뒤에 지금의 우리를 돌아보며 “우리가 참 많이 닮아졌구나” 하고 웃을 수 있을 것 같아.
+
+결론은 늘 같아.
+너라서 든든하고, 너라서 행복해.
+우리 천천히, 오래 가자.
+
+늘 사랑해.
+현호 드림
+      </div>
+    </div>
+    <div class="row section">
+      <input id="bgmUrl" class="soft" placeholder="assets/bgm.mp3 (기본)"/>
+      <button class="btn" id="applyBgm">BGM 적용</button>
+    </div>
+    <audio id="bgm" controls src="assets/bgm.mpm3"></audio>
+    <div class="section">
+      <button class="btn" id="saveAll">편지/설정 저장</button>
+      <button class="btn" id="nextGift" style="margin-left:10px">🎁 선물 보기</button>
+    </div>
+  </div><!-- /end -->
+
+  <!-- 선물 페이지 -->
+  <div id="gift" class="card stage">
+    <h2>🎁 100일 선물</h2>
+    <p class="muted">캡슐을 열어보세요! 깜짝 선물이 나올 거예요 ✨</p>
+    <div class="gift-grid section">
+      <!-- 선물 #1: 뉴발란스 프레쉬폼 X More v5 -->
+      <div class="gift-card">
+        <div class="gift-thumb">
+          <img src="assets/nb_more_v5.jpg" alt="뉴발란스 프레쉬폼 X More v5" onerror="this.replaceWith(document.getElementById('nb-fallback').content.cloneNode(true))">
+          <template id="nb-fallback">
+            <div class="fallback">
+              <svg viewBox="0 0 200 120" preserveAspectRatio="xMidYMid meet">
+                <rect x="0" y="0" width="200" height="120" rx="12" fill="#fff"/>
+                <path d="M20,80 C40,50 80,40 110,60 L145,65 L170,70 L180,85 L175,95 L40,95 Z" fill="#ffd6e7" stroke="#ff6fa3" stroke-width="3"/>
+                <circle cx="62" cy="85" r="12" fill="#fff" stroke="#ff6fa3" stroke-width="3"/>
+                <circle cx="134" cy="85" r="12" fill="#fff" stroke="#ff6fa3" stroke-width="3"/>
+                <text x="100" y="28" text-anchor="middle" font-size="14" fill="#ff6fa3">Fresh Foam X More v5</text>
+              </svg>
+            </div>
+          </template>
+        </div>
+        <div class="gift-info">
+          <div class="gift-title">뉴발란스 런닝화 · 프레쉬폼 X More v5</div>
+          <div class="muted tiny">사이즈 확인해서 예쁜 러닝 시작하자! 🏃‍♀️</div>
+        </div>
+      </div>
+      <!-- 선물 #2: 캡슐 뽑기 GIF -->
+      <div class="gift-card">
+        <div class="gift-thumb" style="display:flex;justify-content:center;align-items:center">
+          <img id="capsuleGif" src="assets/capsule_gacha.gif" alt="캡슐 뽑기 GIF" style="max-width:100%;height:auto"/>
+        </div>
+        <div class="gift-info">
+          <div class="gift-title">호텔 마사지권 1개</div>
+          <div class="muted tiny">캡슐을 뽑았더니… 오늘의 선물! ✨</div>
+          <div class="row" style="margin-top:8px">
+            <button class="soft" onclick="const g=document.getElementById('capsuleGif'); g.src='assets/capsule_gacha.gif?'+Date.now()">다시 뽑기 보기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <button class="btn" onclick="go(4)">← 편지로 돌아가기</button>
+    </div>
+  </div>
+  </div><!-- /end -->
+</div><!-- /container -->
+
+<script>
+/* ================= 공통 진행도 ================= */
+const stages = ["ch1","ch2","ch3","ch4","end","gift"];
+const pg = document.getElementById('pg');
+let cur=0;
+function go(i){
+  cur=i;
+  stages.forEach((id,k)=>document.getElementById(id).classList.toggle('active',k===i));
+  pg.style.width=((i)/ (stages.length-1))*100+"%";
+}
+go(0);
+
+/* ================= CH1: 기억 퀴즈 ================= */
+const quizData = [
+  { q: "처음 만나기로 했던 동네는?", opts:["연남동","망원동","신촌"], a:0 },
+  { q: "서희가 여행지에서 자주 먹었다고 한 과일은?", opts:["파파야","망고","두리안"], a:1 },
+  { q: "현호가 점심시간에 가끔 하는 일은?", opts:["낮잠 자기","운동하기","드라마 보기"], a:1 },
+  { q: "함께 듣자고 얘기했던 가수는?", opts:["치즈(CHEEZE)","선우정아","윤하"], a:1 },
+  { q: "'gmg'는 무슨 뜻일까?", opts:["가면가","고맙고","그만가자"], a:0 },
+  { q: "2025.05.15~16 우리가 묵은 호텔은?", opts:["롯데호텔 서울","호텔 오노마(대전)","파크하얏트 부산"], a:1 },
+  { q: "서희가 현호 닮았다고 장난친 동물은?", opts:["너구리","햄스터","알파카"], a:1 },
+  { q: "비가 와도 하자며 얘기한 5/9 데이트는?", opts:["드라이브인 영화(자유로 자동차극장)","한강 피크닉","미술관 투어"], a:0 },
+  { q: "다음에 가자고 한 테마파크는?", opts:["캐리비안베이","롯데월드","에버랜드"], a:2 },
+  { q: "현호가 즐겨 마시는 음료는?", opts:["제로콜라","아메리카노","매실차"], a:0 },
+  { q: "현호가 좋아한다고 한 베트남 채소 요리는?", opts:["모닝글로리(공심채)","분짜","짜조"], a:0 },
+  { q: "합정에서 들렀던 카페는?", opts:["밤부 베이커리&브루잉","어니언","테라로사"], a:0 },
+];
+
+const quizList = document.getElementById('quizList');
+const quizProg = document.getElementById('quizProg');
+const submitQuiz = document.getElementById('submitQuiz');
+const quizResult = document.getElementById('quizResult');
+const quizPassedBadge = document.getElementById('quizPassed');
+let quizAnswers = {};
+
+function renderQuiz(){
+  quizList.innerHTML = '';
+  quizData.forEach((it, i)=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'q-item';
+    const title = document.createElement('div');
+    title.innerHTML = `<b>Q${i+1}.</b> ${it.q}`;
+    wrap.appendChild(title);
+    it.opts.forEach((op, k)=>{
+      const row = document.createElement('label');
+      row.className = 'opt';
+      row.innerHTML = `
+        <input type="radio" name="q${i}" value="${k}" ${quizAnswers[i]==k?'checked':''}/>
+        <span>${op}</span>
+      `;
+      row.querySelector('input').addEventListener('change', ()=>{
+        quizAnswers[i] = k;
+        localStorage.setItem('quiz_answers', JSON.stringify(quizAnswers));
+        updateQuizProgress();
+      });
+      wrap.appendChild(row);
+    });
+    quizList.appendChild(wrap);
+  });
+  updateQuizProgress();
+}
+
+function updateQuizProgress(){
+  const answered = Object.keys(quizAnswers).length;
+  quizProg.textContent = `${answered} / ${quizData.length} 응답`;
+}
+
+function gradeQuiz(){
+  let score = 0;
+  quizData.forEach((it, i)=>{
+    if(quizAnswers[i] === it.a) score++;
+  });
+  const passed = score >= 9;
+  quizResult.textContent = `점수: ${score} / ${quizData.length}  ${passed ? '🎉 잘했어! 통과!' : '조금만 더! 9개 이상이면 통과'}`;
+  if(passed){
+    quizPassedBadge.classList.add('on');
+    localStorage.setItem('quiz_passed','1');
+    try{ confetti(); }catch{}
+    setTimeout(()=>go(1), 700);
+  }else{
+    quizPassedBadge.classList.remove('on');
+    localStorage.removeItem('quiz_passed');
+  }
+}
+
+submitQuiz.addEventListener('click', gradeQuiz);
+if(localStorage.getItem('quiz_passed')==='1'){
+  quizPassedBadge.classList.add('on');
+}
+renderQuiz();
+
+/* ================= CH2: 숨은 하트 ================= */
+const bg = document.getElementById('bg');
+const bgUrl = document.getElementById('bgUrl');
+const applyBg = document.getElementById('applyBg');
+const findwrap = document.getElementById('findwrap');
+const heartStatus = document.getElementById('heartStatus');
+const HiddenHearts = { count:5, positions: [ {x:12,y:22},{x:40,y:18},{x:73,y:35},{x:25,y:68},{x:82,y:72} ] };
+let found=0, total=HiddenHearts.count;
+heartStatus.textContent = `0 / ${total}`;
+bg.src = localStorage.getItem('photo') || "assets/photo2.jpg";
+bgUrl.value = bg.src;
+
+function placeHearts(){
+  [...findwrap.querySelectorAll('.heart')].forEach(n=>n.remove());
+  found=0; heartStatus.textContent = `0 / ${total}`;
+  HiddenHearts.positions.slice(0,total).forEach((p)=>{
+    const h=document.createElement('div'); h.className="heart"; h.textContent="❤";
+    h.style.left = `calc(${p.x}% - 15px)`; h.style.top = `calc(${p.y}% - 15px)`;
+    h.onclick=()=>{
+      if(h.dataset.hit) return;
+      h.dataset.hit=1; h.style.opacity=.35; found++; heartStatus.textContent=`${found} / ${total}`;
+      if(found>=total) setTimeout(()=>go(2), 400);
+    };
+    findwrap.appendChild(h);
+  })
+}
+placeHearts();
+
+applyBg.onclick = ()=>{
+  const u = bgUrl.value.trim() || "assets/photo2.jpg";
+  bg.src = u; document.getElementById('pv').src = u;
+  localStorage.setItem('photo', u);
+  initPuzzle(u);
+};
+
+/* ================= CH3: 미로 ================= */
+const mazeEl = document.getElementById('maze');
+let cellSize, rows, cols, player, goal;
+function buildMaze(){
+  mazeEl.innerHTML="";
+  const MAPS = [
+    ["000000","011110","000010","011010","010010","000000"], // 쉬움
+    ["0010000","0010110","0000100","0111100","0000000","0111110","0000000"],// 보통
+    ["001111000","000001000","011101110","010000010","010111010","010100010","010101010","010001010","011111010"], // 어려움
+    ["0000000000","0111111110","0000000010","0111111010","0100000010","0101111010","0101000010","0101011010","0100010010","0111111110"] // 매우 어려움
+  ];
+  const map = MAPS[3].map(r=>r.split("").map(n=>+n));
+  rows=map.length; cols=map[0].length;
+  const W=mazeEl.clientWidth, H=mazeEl.clientHeight;
+  cellSize=Math.floor(Math.min(W/cols, H/rows));
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const div=document.createElement('div'); div.className='cell';
+      div.style.width=cellSize+'px'; div.style.height=cellSize+'px';
+      div.style.left=(c*cellSize)+'px'; div.style.top=(r*cellSize)+'px';
+      if(map[r][c]===1) div.style.background="#ffd6e7";
+      mazeEl.appendChild(div);
+    }
+  }
+  player={r:0,c:0}; goal={r:rows-1,c:cols-1};
+  const p=document.createElement('div'); p.className='player'; p.style.width=p.style.height=(cellSize-6)+'px';
+  const g=document.createElement('div'); g.className='goal'; g.style.width=g.style.height=(cellSize-6)+'px';
+  mazeEl.appendChild(g); mazeEl.appendChild(p);
+  const place=(el, rc)=>{ el.style.left=(rc.c*cellSize+3)+'px'; el.style.top=(rc.r*cellSize+3)+'px'; };
+  place(p,player); place(g,goal);
+  const can=(r,c)=> r>=0 && r<rows && c>=0 && c<cols && map[r][c]===0;
+  let sx,sy, moving=false;
+  const moveBy=(dr,dc)=>{
+    const nr=player.r+dr, nc=player.c+dc;
+    if(can(nr,nc)){
+      player.r=nr; player.c=nc; place(p,player);
+      if(player.r===goal.r && player.c===goal.c){
+        try{ confetti(); }catch{};
+        setTimeout(()=>go(3), 500);
+      }
+    }
+  };
+  mazeEl.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; moving=true; });
+  mazeEl.addEventListener('touchend',()=>{ moving=false; });
+  mazeEl.addEventListener('touchmove',e=>{
+    if(!moving) return;
+    const t=e.touches[0]; const dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Math.abs(dx)>28 || Math.abs(dy)>28){
+      if(Math.abs(dx)>Math.abs(dy)) moveBy(0, dx>0?+1:-1); else moveBy(dy>0?+1:-1, 0);
+      sx=t.clientX; sy=t.clientY;
+    }
+  });
+  window.addEventListener('keydown',e=>{
+    if(!mazeEl.closest('.active')) return;
+    if(e.key==="ArrowUp") moveBy(-1,0);
+    if(e.key==="ArrowDown") moveBy(1,0);
+    if(e.key==="ArrowLeft") moveBy(0,-1);
+    if(e.key==="ArrowRight") moveBy(0,1);
+  });
+}
+new ResizeObserver(buildMaze).observe(mazeEl);
+
+/* ================= CH4: 퍼즐 ================= */
+const board = document.getElementById('board');
+const pv = document.getElementById('pv');
+const pstat = document.getElementById('pstat');
+const btnShuffle = document.getElementById('shuffle');
+const btnSnap = document.getElementById('snap');
+let SIZE,N=3,CELL,pieces=[];
+
+function computeSize(){
+  const rect=board.getBoundingClientRect();
+  SIZE=Math.min(360, Math.floor(rect.width))||Math.min(360,Math.floor(innerWidth*0.94));
+  CELL=Math.floor(SIZE/N);
+  board.style.width=SIZE+'px'; board.style.height=SIZE+'px';
+}
+
+function setPieceSize(el){ el.style.width=CELL+'px'; el.style.height=CELL+'px'; }
+
+function enableDrag(el){
+  let sx,sy,ox,oy;
+  const mv=e=>{
+    const p=e.touches?e.touches[0]:e;
+    const nx=Math.min(SIZE-CELL, Math.max(0, ox + (p.clientX - sx)));
+    const ny=Math.min(SIZE-CELL, Math.max(0, oy + (p.clientY - sy)));
+    el.style.left=nx+'px'; el.style.top=ny+'px';
+  };
+  const up=()=>{
+    document.removeEventListener('mousemove',mv);document.removeEventListener('mouseup',up);
+    document.removeEventListener('touchmove',mv);document.removeEventListener('touchend',up);
+    snapMaybe(el); updatePct();
+  };
+  const dn=e=>{
+    const p=e.touches?e.touches[0]:e; sx=p.clientX; sy=p.clientY;
+    ox=parseFloat(el.style.left)||0; oy=parseFloat(el.style.top)||0;
+    document.addEventListener('mousemove',mv);document.addEventListener('mouseup',up);
+    document.addEventListener('touchmove',mv);document.addEventListener('touchend',up);
+  };
+  el.addEventListener('mousedown',dn); el.addEventListener('touchstart',dn);
+}
+
+function snapMaybe(el){
+  const tx=+el.dataset.tx, ty=+el.dataset.ty;
+  const ex=parseFloat(el.style.left)||0, ey=parseFloat(el.style.top)||0;
+  const dist=Math.hypot(ex-tx, ey-ty);
+  if(dist<Math.max(14, CELL*0.15)){
+    el.style.left=tx+'px'; el.style.top=ty+'px';
+  }
+}
+
+function updatePct(){
+  let good=0;
+  pieces.forEach(p=>{
+    const tx=+p.dataset.tx, ty=+p.dataset.ty;
+    const ex=Math.round(parseFloat(p.style.left)||0), ey=Math.round(parseFloat(p.style.top)||0);
+    if(Math.abs(ex-tx)<2 && Math.abs(ey-ty)<2) good++;
+  });
+  const pct=Math.round((good/pieces.length)*100);
+  pstat.textContent=pct+"% 완료";
+  if(pct>=90){
+  try{ confetti(); }catch{};
+  setTimeout(()=>{ 
+    go(4); 
+    // 편지 페이지로 이동 후 BGM 자동재생 시도
+    setTimeout(() => {
+      tryPlayBGM();
+    }, 100);
+  }, 500);
+}
+}
+
+function initPuzzle(img){
+  computeSize(); board.innerHTML=""; pieces=[];
+  for(let r=0;r<N;r++){
+    for(let c=0;c<N;c++){
+      const x=c*CELL, y=r*CELL;
+      const el=document.createElement('div'); el.className='piece';
+      setPieceSize(el);
+      el.style.left=Math.random()*(SIZE-CELL)+'px';
+      el.style.top=Math.random()*(SIZE-CELL)+'px';
+      el.style.backgroundImage=`url(${img})`;
+      el.style.backgroundSize=`${SIZE}px ${SIZE}px`;
+      el.style.backgroundPosition=`-${x}px -${y}px`;
+      el.dataset.tx=x; el.dataset.ty=y; enableDrag(el); board.appendChild(el); pieces.push(el);
+    }
+  }
+  updatePct();
+}
+
+btnShuffle.onclick = ()=>{
+  pieces.forEach(el=>{
+    setPieceSize(el);
+    el.style.left=Math.random()*(SIZE-CELL)+'px';
+    el.style.top=Math.random()*(SIZE-CELL)+'px';
+  });
+  updatePct();
+};
+
+btnSnap.onclick = ()=>{
+  pieces.forEach(el=>{
+    el.style.left=el.dataset.tx+'px';
+    el.style.top=el.dataset.ty+'px';
+  });
+  updatePct();
+};
+
+window.addEventListener('resize', ()=>initPuzzle(pv.src));
+pv.src = localStorage.getItem('photo') || "assets/photo.jpg";
+initPuzzle(pv.src);
+
+/* ================= 엔딩 & 저장 ================= */
+document.getElementById('applyBgm').onclick = ()=>{
+  const u = document.getElementById('bgmUrl').value.trim() || "assets/bgm.mp3";
+  document.getElementById('bgm').src = u;
+};
+
+document.getElementById('saveAll').onclick = ()=>{
+  localStorage.setItem('letter', document.getElementById('letter').innerText);
+  localStorage.setItem('bgm', document.getElementById('bgm').src);
+  localStorage.setItem('photo', pv.src);
+  alert('저장 완료!');
+};
+
+// 선물 페이지로 이동
+document.getElementById('nextGift').onclick = ()=>{
+  go(5);
+};
+
+// BGM 자동재생 (사용자 상호작용 후)
+let bgmPlayed = false;
+function tryPlayBGM() {
+  if (!bgmPlayed) {
+    const bgm = document.getElementById('bgm');
+    bgm.play().then(() => {
+      bgmPlayed = true;
+      console.log('BGM 자동재생 성공!');
+    }).catch((error) => {
+      console.log('BGM 자동재생 실패:', error.message);
+      // 자동재생이 차단된 경우 무시
+    });
+  }
+}
+
+// 클릭, 터치, 키보드 등 모든 상호작용에서 BGM 재생 시도
+document.addEventListener('click', tryPlayBGM, { once: true });
+document.addEventListener('touchstart', tryPlayBGM, { once: true });
+document.addEventListener('keydown', tryPlayBGM, { once: true });
+
+// 복원
+(function(){
+  const L=localStorage.getItem('letter');
+  if(L) document.getElementById('letter').innerText=L;
+  const B=localStorage.getItem('bgm');
+  if(B) document.getElementById('bgm').src=B;
+  const P=localStorage.getItem('photo');
+if(P){ document.getElementById('bg').src=P; pv.src=P; } else {
+  document.getElementById('bg').src="assets/photo2.jpg";
+  pv.src="assets/photo.jpg";
+}
+})();
+
+/* ================= Confetti ================= */
+const conf = document.getElementById('confetti');
+const ctx = conf.getContext('2d');
+let W, H;
+function resize(){ W=conf.width=innerWidth; H=conf.height=innerHeight }
+window.addEventListener('resize', resize);
+resize();
+let particles=[];
+let playing=false;
+let t0=0;
+
+function confetti(){
+  if(playing) return;
+  playing=true;
+  particles=[];
+  t0=performance.now();
+  for(let i=0;i<140;i++){
+    particles.push({
+      x: Math.random()*W,
+      y: -20 - Math.random()*H*0.5,
+      r: 3+Math.random()*4,
+      vx: -1+Math.random()*2,
+      vy: 2+Math.random()*3,
+      rot: Math.random()*Math.PI,
+      vr: -0.1+Math.random()*0.2,
+      life: 0
+    });
+  }
+  requestAnimationFrame(loop);
+}
+
+function loop(ts){
+  const dt = Math.min(32, ts - t0);
+  t0 = ts;
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vr;
+    p.vy += 0.02;
+    p.life += dt;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    const hue = (p.life*0.12 + p.x*0.04)%360;
+    ctx.fillStyle = `hsl(${hue} 90% 70%)`;
+    const s = p.r*2;
+    ctx.fillRect(-p.r, -p.r, s, s);
+    ctx.restore();
+  });
+  particles = particles.filter(p=> p.y < H+20);
+  if(particles.length>0){
+    requestAnimationFrame(loop)
+  } else {
+    playing=false
+  }
+}
+</script>
+</body>
+</html>
